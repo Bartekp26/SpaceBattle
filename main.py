@@ -6,6 +6,9 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Space Battle")
 
 WHITE = (255, 255, 255)
+Black = (0, 0, 0)
+
+BORDER = pygame.Rect(WIDTH/2-5, 0, 10, HEIGHT)
 
 FPS = 60
 VELOCITY = 5
@@ -23,30 +26,31 @@ RED_SPACESHIP = pygame.transform.rotate(
 
 def draw_window(yellow, red):
     WIN.fill(WHITE)
+    pygame.draw.rect(WIN, Black, BORDER)
     WIN.blit(YELLOW_SPACESHIP, (yellow.x, yellow.y))
     WIN.blit(RED_SPACESHIP, (red.x, red.y))
     pygame.display.update()
 
 
 def handle_yellow_movement(keys_pressed, yellow):
-    if keys_pressed[pygame.K_a]:  # Left
+    if keys_pressed[pygame.K_a] and yellow.x - VELOCITY > 0:  # Left
         yellow.x -= VELOCITY
-    if keys_pressed[pygame.K_d]:  # Right
+    if keys_pressed[pygame.K_d] and yellow.x + VELOCITY + yellow.width < BORDER.x:  # Right
         yellow.x += VELOCITY
-    if keys_pressed[pygame.K_w]:  # Up
+    if keys_pressed[pygame.K_w] and yellow.y - VELOCITY > 0:  # Up
         yellow.y -= VELOCITY
-    if keys_pressed[pygame.K_s]:  # Down
+    if keys_pressed[pygame.K_s] and yellow.y + VELOCITY + yellow.height < HEIGHT - 15:  # Down
         yellow.y += VELOCITY
 
 
 def handle_red_movement(keys_pressed, red):
-    if keys_pressed[pygame.K_RIGHT]:  # Left
-        red.x += VELOCITY
-    if keys_pressed[pygame.K_LEFT]:  # Right
+    if keys_pressed[pygame.K_LEFT] and red.x - VELOCITY > BORDER.x + BORDER.width:  # Left
         red.x -= VELOCITY
-    if keys_pressed[pygame.K_UP]:  # Up
+    if keys_pressed[pygame.K_RIGHT] and red.x + VELOCITY + red.width < WIDTH:  # Right
+        red.x += VELOCITY
+    if keys_pressed[pygame.K_UP] and red.y - VELOCITY > 0:  # Up
         red.y -= VELOCITY
-    if keys_pressed[pygame.K_DOWN]:  # Down
+    if keys_pressed[pygame.K_DOWN] and red.y + VELOCITY + red.height < HEIGHT - 15:  # Down
         red.y += VELOCITY
 
 
