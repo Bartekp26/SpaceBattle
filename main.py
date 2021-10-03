@@ -8,6 +8,7 @@ pygame.display.set_caption("Space Battle")
 WHITE = (255, 255, 255)
 
 FPS = 60
+VELOCITY = 5
 
 SPACESHIP_WIDTH, SPACESHIP_HEIGHT = 55, 40
 
@@ -27,6 +28,28 @@ def draw_window(yellow, red):
     pygame.display.update()
 
 
+def handle_yellow_movement(keys_pressed, yellow):
+    if keys_pressed[pygame.K_a]:  # Left
+        yellow.x -= VELOCITY
+    if keys_pressed[pygame.K_d]:  # Right
+        yellow.x += VELOCITY
+    if keys_pressed[pygame.K_w]:  # Up
+        yellow.y -= VELOCITY
+    if keys_pressed[pygame.K_s]:  # Down
+        yellow.y += VELOCITY
+
+
+def handle_red_movement(keys_pressed, red):
+    if keys_pressed[pygame.K_RIGHT]:  # Left
+        red.x += VELOCITY
+    if keys_pressed[pygame.K_LEFT]:  # Right
+        red.x -= VELOCITY
+    if keys_pressed[pygame.K_UP]:  # Up
+        red.y -= VELOCITY
+    if keys_pressed[pygame.K_DOWN]:  # Down
+        red.y += VELOCITY
+
+
 def main():
     yellow = pygame.Rect(100, 300, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
     red = pygame.Rect(700, 300, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
@@ -38,6 +61,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+        keys_pressed = pygame.key.get_pressed()
+        handle_yellow_movement(keys_pressed, yellow)
+        handle_red_movement(keys_pressed, red)
 
         draw_window(yellow, red)
 
